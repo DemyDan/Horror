@@ -11,7 +11,7 @@ public class LightButton : MonoBehaviour {
     {
         if(player)
         {
-            GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 120), ("Press e to turn on"));
+            GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 120), ("Press e to turn on/off the light"));
         }
     }
 

@@ -2,45 +2,85 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interact : MonoBehaviour {
-
-    LightButton lightSwitch;
-
+public class Interact : MonoBehaviour
+{ 
     public Light flashLight;
+    public Transform cam;
     public bool clickedE = false;
-	
-	// Update is called once per frame
-	void Update () {
+    public bool inSight = false;
+
+    List<string> keyItems = new List<string>();
+
+
+    void Update()
+    {
         FlashLight();
-	}
+        Touch();
+    }
 
     void FlashLight()
     {
-        if(Input.GetKeyDown("q"))
+        if (Input.GetKeyDown("q"))
         {
             flashLight.enabled = !flashLight.enabled;
         }
     }
 
-
-    private void OnTriggerStay(Collider other)
+    private void Touch()
     {
-        //Checks if you are within the lightbutton range and enables you to press e
-        if (other.gameObject.tag.Equals("ligthSwitch"))
+        RaycastHit hit;
+        int layer_mask = LayerMask.GetMask("Interactable");
+
+        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 0.8f, layer_mask))
         {
-            if (Input.GetKeyDown("e"))
+            //If its a keyitem
+            if (hit.collider.CompareTag("keyItem"))
             {
-                if (other.gameObject.GetComponent<LightButton>().spotLight.enabled == true)
+                if (Input.GetKeyDown("e"))
                 {
-                    other.gameObject.GetComponent<LightButton>().spotLight.enabled = false;
-                    Debug.Log("Disabled");
+                    keyItems.Add(hit.collider.name);
+                    Destroy(hit.collider.gameObject);
                 }
-                else if (other.gameObject.GetComponent<LightButton>().spotLight.enabled == false)
+                Debug.Log("hit");
+                //If its a lightswitch
+            }
+            else if (hit.collider.CompareTag("ligthSwitch"))
+            {
+                if (Input.GetKeyDown("e"))
                 {
-                    other.gameObject.GetComponent<LightButton>().spotLight.enabled = true;
-                    Debug.Log("Enabled");
+                    Debug.Log("Clicked");
+                    if (hit.collider.GetComponent<LightButton>().spotLight.enabled == true)
+                    {
+                        hit.collider.GetComponent<LightButton>().spotLight.enabled = false;
+                        Debug.Log("Disabled");
+                    }
+                    else if (hit.collider.GetComponent<LightButton>().spotLight.enabled == false)
+                    {
+                        hit.collider.GetComponent<LightButton>().spotLight.enabled = true;
+                        Debug.Log("Enabled");
+                    }
                 }
             }
+            Debug.DrawRay(cam.transform.position, cam.transform.forward * hit.distance, Color.yellow);
         }
     }
+
+
+
+    //Show the items you have picked up
+    void OnGUI()
+    {
+        if (keyItems.Count >= 1)
+        {
+            GUILayout.BeginVertical();
+            foreach (string item in keyItems)
+            {
+                GUILayout.Box(item);
+            }
+            GUILayout.EndVertical();
+        }
+
+    }
 }
+
+
