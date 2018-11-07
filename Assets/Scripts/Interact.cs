@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Interact : MonoBehaviour
-{ 
+{
+    public GameObject flash;
     public Light flashLight;
     public Transform cam;
     public bool clickedE = false;
@@ -42,7 +43,16 @@ public class Interact : MonoBehaviour
                     Destroy(hit.collider.gameObject);
                 }
                 Debug.Log("hit");
-                //If its a lightswitch
+            }
+            //Scene 1 flashlight pickup
+            else if (hit.collider.CompareTag("flashLight"))
+            {
+                if (Input.GetKeyDown("e"))
+                {
+                    Destroy(hit.collider.gameObject);
+                    flash.SetActive(true);
+                }
+             //If its a lightswitch
             }
             else if (hit.collider.CompareTag("ligthSwitch"))
             {
@@ -61,6 +71,7 @@ public class Interact : MonoBehaviour
                     }
                 }
             }
+           
             Debug.DrawRay(cam.transform.position, cam.transform.forward * hit.distance, Color.yellow);
         }
     }
