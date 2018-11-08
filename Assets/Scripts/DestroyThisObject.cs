@@ -8,7 +8,10 @@ public class DestroyThisObject : MonoBehaviour {
 
     private void Update()
     {
-        transform.position = DestroyThis.transform.position;
+        if(DestroyThis != null)
+        {
+            transform.position = DestroyThis.transform.position;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -16,7 +19,7 @@ public class DestroyThisObject : MonoBehaviour {
         if(other.gameObject.tag.Equals("Player"))
         {
             Destroy(DestroyThis);
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
         }
     }
 }

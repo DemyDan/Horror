@@ -45,6 +45,6 @@ public class ScarePlayer : MonoBehaviour {
     {
         lamps.SetActive(false);
         flash.SetActive(false);
-        //houseLamp.SetActive(true);
+        houseLamp.SetActive(true);
     }
 }
