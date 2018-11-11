@@ -13,7 +13,7 @@ public class ShowTextWhenEnter : MonoBehaviour
     {
         if (player)
         {
-            GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 120), (text));
+            GUI.Box(new Rect(140, Screen.height - 100, Screen.width - 300, 50), (text));
         }
     }
 
